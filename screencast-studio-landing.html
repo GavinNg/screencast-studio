@@ -643,6 +643,20 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+        </div>
+        <h3>Video Trimming <span class="pro-badge">PRO</span></h3>
+        <p>Cut unwanted segments from your recordings. Drag the timeline handles to set the trim range and export only what matters.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M7 7h4v4H7z"/><line x1="14" y1="7" x2="17" y2="7"/><line x1="14" y1="11" x2="17" y2="11"/><line x1="7" y1="14" x2="17" y2="14"/><line x1="7" y1="17" x2="17" y2="17"/></svg>
+        </div>
+        <h3>Watermark Editor <span class="pro-badge">PRO</span></h3>
+        <p>Add text or image watermarks with full control over position, size, color, opacity, and rotation. Save presets for reuse across recordings.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <h3>Privacy by Design</h3>
@@ -683,8 +697,8 @@
       </div>
       <div class="step">
         <div class="step-num">4</div>
-        <h3>Download Video</h3>
-        <p>Preview your recording and download instantly. Convert to MP4 if needed.</p>
+        <h3>Edit &amp; Download</h3>
+        <p>Preview, trim unwanted segments, add watermarks, and download. Convert to MP4 if needed.</p>
       </div>
     </div>
   </section>
@@ -725,6 +739,16 @@
             <td class="feature-col">Local download (no upload)</td>
             <td class="check">&#10003;</td>
             <td class="pro-col check">&#10003;</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Video trimming</td>
+            <td class="cross">&#10007;</td>
+            <td class="pro-col pro">&#10003; <span class="pro-badge">PRO</span></td>
+          </tr>
+          <tr>
+            <td class="feature-col">Watermark editor (text + image)</td>
+            <td class="cross">&#10007;</td>
+            <td class="pro-col pro">&#10003; <span class="pro-badge">PRO</span></td>
           </tr>
           <tr>
             <td class="feature-col">Video quality</td>
@@ -870,6 +894,14 @@
       <details class="faq-item">
         <summary>What video formats are supported?</summary>
         <p>Recordings are saved in WebM format by default. The extension includes a built-in WebM-to-MP4 converter that re-encodes the video using Canvas + MediaRecorder, so you can get MP4 files without installing any additional software.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I trim my recordings?</summary>
+        <p>Yes! Video trimming is a Pro feature. After recording, click "Trim Video" to open the trim editor. Drag the start and end handles on the timeline to select the segment you want to keep, then click "Apply Trim" to generate the trimmed video. The original recording is preserved.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I add watermarks to my videos?</summary>
+        <p>Yes! The Watermark Editor is a Pro feature. Click "Edit Watermarks" to open the visual editor, where you can add text or image watermarks, drag them to position on a live preview, and adjust font, size, color, opacity, and rotation. Save watermark presets for reuse, and apply them automatically when downloading. Watermarks are burned into the video using Canvas-based rendering for pixel-perfect accuracy.</p>
       </details>
       <details class="faq-item">
         <summary>Is the $19.99 Pro license a subscription?</summary>
