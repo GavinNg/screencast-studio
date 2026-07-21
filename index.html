@@ -526,6 +526,83 @@
     }
     .footer-links a:hover { color: var(--ink); }
 
+    /* === Screenshots Carousel === */
+    .carousel-section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 24px 60px;
+    }
+    .carousel {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--bg2);
+      border: 1px solid var(--rule);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .carousel-slide {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg2);
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--rule);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.2s, opacity 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .carousel-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+    .carousel-dots {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-dot.active {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
+
     /* === Responsive === */
     @media (max-width: 768px) {
       .nav-links a:not(.nav-cta) { display: none; }
@@ -537,6 +614,9 @@
       .privacy-features li { justify-content: center; }
       .hero-stats { gap: 28px; }
       .cta-box { padding: 40px 24px; }
+      .carousel-btn { width: 36px; height: 36px; }
+      .carousel-btn.prev { left: 8px; }
+      .carousel-btn.next { right: 8px; }
     }
   </style>
 </head>
@@ -604,6 +684,25 @@
       </div>
     </div>
   </header>
+
+  <!-- Screenshots Carousel -->
+  <section class="carousel-section">
+    <div class="carousel" id="screenshot-carousel">
+      <div class="carousel-track" id="carousel-track">
+        <div class="carousel-slide"><img src="assets/Screenshot_2560x1600-1.png" alt="ScreenCast Studio recording interface" loading="lazy"></div>
+        <div class="carousel-slide"><img src="assets/Screenshot_2560x1600-2.png" alt="ScreenCast Studio recording settings" loading="lazy"></div>
+        <div class="carousel-slide"><img src="assets/Screenshot_2560x1600-3.png" alt="ScreenCast Studio video preview and download" loading="lazy"></div>
+        <div class="carousel-slide"><img src="assets/Screenshot_2560x1600-4.png" alt="ScreenCast Studio editing features" loading="lazy"></div>
+      </div>
+      <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous screenshot">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="carousel-btn next" id="carousel-next" aria-label="Next screenshot">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="carousel-dots" id="carousel-dots"></div>
+    </div>
+  </section>
 
   <!-- Features -->
   <section class="section" id="features">
@@ -950,6 +1049,78 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      const track = document.getElementById('carousel-track');
+      const slides = track.querySelectorAll('.carousel-slide');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      const dotsContainer = document.getElementById('carousel-dots');
+      const total = slides.length;
+      let current = 0;
+      let autoTimer = null;
+
+      // Create dots
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to screenshot ' + (i + 1));
+        dot.addEventListener('click', function() { goTo(i); resetAuto(); });
+        dotsContainer.appendChild(dot);
+      }
+
+      function updateDots() {
+        dotsContainer.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
+          dot.classList.toggle('active', i === current);
+        });
+      }
+
+      function goTo(index) {
+        current = (index + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        updateDots();
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      prevBtn.addEventListener('click', function() { prev(); resetAuto(); });
+      nextBtn.addEventListener('click', function() { next(); resetAuto(); });
+
+      // Auto-play
+      function startAuto() { autoTimer = setInterval(next, 5000); }
+      function resetAuto() { clearInterval(autoTimer); startAuto(); }
+      startAuto();
+
+      // Pause on hover
+      const carousel = document.getElementById('screenshot-carousel');
+      carousel.addEventListener('mouseenter', function() { clearInterval(autoTimer); });
+      carousel.addEventListener('mouseleave', startAuto);
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+      carousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(autoTimer);
+      }, { passive: true });
+      carousel.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) { next(); } else { prev(); }
+        }
+        startAuto();
+      }, { passive: true });
+
+      // Keyboard support
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') { prev(); resetAuto(); }
+        if (e.key === 'ArrowRight') { next(); resetAuto(); }
+      });
+    })();
+  </script>
 
 </body>
 </html>
